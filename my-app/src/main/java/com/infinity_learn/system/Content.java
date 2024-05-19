@@ -1,25 +1,25 @@
 package com.infinity_learn.system;
 
-import java.util.ArrayList;
+import java.net.URL;
 
 import org.bson.types.ObjectId;
 
-public class Course 
+public class Content 
 {
     private ObjectId id;
     private String name;
     private String description;
-    private ArrayList<Assessment> assessments;
-    private ArrayList<Content> contents;
+    private String type;
+    private URL url;
 
     
 
-    public Course(String name, String description, ArrayList<Assessment> assessments, ArrayList<Content> contents) 
+    public Content(String name, String description, String type, URL url) 
     {
         this.name = name;
         this.description = description;
-        this.assessments = assessments;
-        this.contents = contents;
+        this.type = type;
+        this.url = url;
     }
 
     public ObjectId getId() 
@@ -36,7 +36,7 @@ public class Course
     {
         return name;
     }
-
+    
     public void setName(String name) 
     {
         this.name = name;
@@ -46,31 +46,32 @@ public class Course
     {
         return description;
     }
-
+    
     public void setDescription(String description) 
     {
         this.description = description;
     }
 
-    public ArrayList<Assessment> getAssessments() 
+    public String getType() 
     {
-        return assessments;
+        return type;
     }
 
-    public void setAssessments(ArrayList<Assessment> assessments) 
+    public void setType(String type) 
     {
-        this.assessments = assessments;
+        this.type = type;
     }
+
+    public URL getUrl() 
+    {
+        return url;
+    }
+
+    public void setUrl(URL url) 
+    {
+        this.url = url;
+    }
+
     
-    public ArrayList<Content> getContents() 
-    {
-        return contents;
-    }
-
-    public void setContents(ArrayList<Content> contents) 
-    {
-        this.contents = contents;
-    }
-
-    
+        
 }

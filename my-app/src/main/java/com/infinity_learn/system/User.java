@@ -12,17 +12,21 @@ public class User
     private String login;
     private String password;
     private String phoneNumber;
+    private String type;
 
 
     
-    public User(String name, String email, String login, String password, String phoneNumber) 
+    public User(String name, String email, String login, String password, String phoneNumber, String type) 
     {
         this.name = name;
         this.email = email;
         this.login = login;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.type = type;
     }    
+
+    
 
     public String getPhoneNumber() 
     {
@@ -84,6 +88,16 @@ public class User
         this.password = password;
     }
 
+    public String getType() 
+    {
+        return type;
+    }
+
+    public void setType(String type) 
+    {
+        this.type = type;
+    }
+
     public static void print(ArrayList<User> users)
     {
         System.out.println("\n\n**************USERS************\n\n");
@@ -95,6 +109,7 @@ public class User
             System.out.println("Password: " + user.getPassword());
             System.out.println("E-mail: " + user.getEmail());
             System.out.println("Phone Number: " + user.getPhoneNumber());
+            System.out.println("Type: " + user.getType());
         }
 
     }
@@ -109,6 +124,27 @@ public class User
         System.out.println("Password: " + user.getPassword());
         System.out.println("E-mail: " + user.getEmail());
         System.out.println("Phone Number: " + user.getPhoneNumber());
+        System.out.println("Type: " + user.getType());
 
     }
+
+
+    public enum userType
+    {
+        STUDENT("student"),
+        PROFESSOR("professor");
+        
+        private final String userType;
+
+        userType(String userType)
+        {
+            this.userType = userType;
+        }
+
+        public String getUserType()
+        {
+            return this.userType;
+        }
+    }
+
 }
