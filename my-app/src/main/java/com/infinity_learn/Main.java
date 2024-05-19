@@ -1,17 +1,27 @@
 package com.infinity_learn;
 
-import com.infinity_learn.DAO.UserDAO; 
+import java.util.ArrayList;
+
+import com.infinity_learn.DAO.UserDAO;
+import com.infinity_learn.database.ConnectionController;
 import com.infinity_learn.system.*; 
 
-public class Main {
+
+public class Main 
+{
     public static void main(String[] args) throws Exception
     {
-        System.out.println("Hello world!");
+        
+        var database = ConnectionController.getDatabase();
 
-        var controller = new UserDAO();
+        UserDAO userDAO = new UserDAO(database);
 
-        var user = new User("Kalvin", "123","861","kalvin@","kalvinlogin", "kalvinsenha", 21);
+        User user = new User("Amanda", "Amanda@", "Amanda123", "Amanda12345", "719");
+        userDAO.insert(user);
+        
+        ArrayList<User> users = userDAO.getAllUsers();
+        User.print(users);
+        
 
-        controller.InsertUser(user);
     }
 }

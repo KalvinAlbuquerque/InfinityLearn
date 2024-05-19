@@ -28,7 +28,7 @@ public class ConnectionController
             CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), 
             fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
-            var dataBase = connection.getDatabase(ConnectionController.DATABASE_NAME).withCodecRegistry(pojoCodecRegistry);
+            MongoDatabase dataBase = connection.getDatabase(ConnectionController.DATABASE_NAME).withCodecRegistry(pojoCodecRegistry);
             
             return dataBase;
         }
@@ -38,5 +38,20 @@ public class ConnectionController
             return null;
         }
     }
+
+    public static void createCollection(String colectionName)
+    {
+        try
+        {
+            var mongoDatabase = getDatabase();
+            mongoDatabase.createCollection(colectionName);
+            System.out.println("Collection created sucessfully");
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error in create collection: " + e.getMessage());
+        }
+    }
+
     
 }
