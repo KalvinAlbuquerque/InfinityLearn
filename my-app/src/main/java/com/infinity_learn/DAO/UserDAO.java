@@ -3,20 +3,20 @@ package com.infinity_learn.DAO;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.DeleteResult;
 import com.infinity_learn.system.User;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import com.infinity_learn.database.ConnectionController;
 
 public class UserDAO implements DAO<User>
 {
-    private MongoCollection<User> users;  
     private static final String COLLECTIONNAME = "Users";
     private MongoCollection<Document> collection;
 
@@ -57,23 +57,32 @@ public class UserDAO implements DAO<User>
     {
         return this.collection;
     }
+
     @Override
-    public void delete(User user) {
-        // TODO Auto-generated method stub
-        
+    public Boolean delete(User user) 
+    {
+        DeleteResult deleteResult = this.collection.deleteOne(Filters.eq(Keys.ID.getKeyName(), user.getId()));
+
+        long count = deleteResult.getDeletedCount();
+
+        return count == 1;
     }
 
     @Override
-    public Document getDocument() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public void update(User user) {
-        // TODO Auto-generated method stub
-        
+    public void update(User user) 
+    {
+        this.collection.updateOne
+        (
+            Filters.eq(Keys.ID.getKeyName(), user.getId()), 
+            Updates.combine
+            (
+                Updates.set(Keys.NAME.getKeyName(), user.getName()),
+                Updates.set(Keys.LOGIN.getKeyName(), user.getLogin()),
+                Updates.set(Keys.PASSWORD.getKeyName(), user.getPassword()),
+                Updates.set(Keys.EMAIL.getKeyName(), user.getEmail()),
+                Updates.set(Keys.PHONE_NUMBER.getKeyName(), user.getPhoneNumber())
+            )
+        );
     }
 
     public ArrayList<User> getAllUsers()
@@ -102,6 +111,31 @@ public class UserDAO implements DAO<User>
         return users;
     }
     
+    public User getUser(String login)
+    {
+        Document document = this.collection.find(Filters.eq(Keys.LOGIN.getKeyName(), login)).first();
+        User newUser = null;
+        if(!document.isEmpty())
+        {
+
+            String name = document.getString(Keys.NAME.getKeyName());
+            String password = document.getString(Keys.PASSWORD.getKeyName());
+            String email = document.getString(Keys.EMAIL.getKeyName());
+            String phone_number = document.getString(Keys.PHONE_NUMBER.getKeyName());
+            ObjectId id = document.getObjectId(Keys.ID.getKeyName());
+
+            newUser = new User(name, email, login, password, phone_number);
+            newUser.setId(id);
+
+        }
+
+        return newUser;
+
+
+    }
+
+     //public User getUser(String login)
+      
     
     public enum Keys
     {

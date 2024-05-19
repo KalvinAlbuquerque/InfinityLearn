@@ -98,4 +98,17 @@ public class User
         }
 
     }
+
+    public static void print(User user)
+    {
+        System.out.println("\n\n**************USER " + user.getName() + "************\n\n");
+        
+        System.out.print("\nName: " + user.getName());
+        System.out.println("\nID: " + user.getId());
+        System.out.println("Login: " + user.getLogin());
+        System.out.println("Password: " + user.getPassword());
+        System.out.println("E-mail: " + user.getEmail());
+        System.out.println("Phone Number: " + user.getPhoneNumber());
+
+    }
 }
