@@ -1,7 +1,6 @@
 package com.infinity_learn;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.infinity_learn.DAO.AssessmentDAO;
@@ -15,25 +14,13 @@ public class Main
     public static void main(String[] args) throws Exception
     {
         
-        var database = ConnectionController.getDatabase();
+      var database = ConnectionController.getDatabase();
 
 
-        Question q1 = new Question("Questao 3", "Letra A");
-        Question q2 = new Question("QUestao 4", "Letra B");
+      User user = new User("Kalvin", "kalvin@", "kalvin123", "123456", "71984", "admin");
+      UserDAO ud = new UserDAO(database);
+      ud.insert(user);
 
-        ArrayList<Question> questions = new ArrayList<>();
-        questions.add(q1);
-        questions.add(q2);
-
-        AssessmentDAO ad = new AssessmentDAO(database);
-
-      /*   Assessment assessment = new Assessment("teste", questions, "Exame de teste", Assessment.Type.EXAM.getType(), LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
-        ad.insert(assessment); */
-        
-        Assessment assessment = ad.getAssessment("Terceiro Exame"); 
-        ad.delete(assessment);
-        
-        //ad.delete(a)
 
 
     }

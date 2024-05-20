@@ -20,11 +20,11 @@ import com.mongodb.client.result.DeleteResult;
 public class AssessmentDAO implements DAO<Assessment> 
 {
     private static final String COLLECTIONNAME = "Assessments";
-    private MongoCollection<Document> collection;
+    private static MongoCollection<Document> collection;
 
     public AssessmentDAO(MongoDatabase database)
     {
-        this.collection = database.getCollection(COLLECTIONNAME);
+        AssessmentDAO.collection = database.getCollection(COLLECTIONNAME);
     }
 
     public AssessmentDAO(){};
@@ -51,7 +51,7 @@ public class AssessmentDAO implements DAO<Assessment>
 
             assessmentDocument.append(Keys.QUESTIONS.getKeyName(), questionsDocument);
 
-            this.collection.insertOne(assessmentDocument);
+            AssessmentDAO.collection.insertOne(assessmentDocument);
         }
         catch(Exception e)
         {
@@ -59,11 +59,11 @@ public class AssessmentDAO implements DAO<Assessment>
         }
     }
 
-    public ArrayList<Question> getQuestions(String assessmentTitle)
+    public static ArrayList<Question> getQuestions(String assessmentTitle)
     {
         ArrayList<Question> questions = new ArrayList<>();
         
-        Document assessmentDocument = this.collection.find(Filters.eq(Keys.TITLE.getKeyName(), assessmentTitle)).first();
+        Document assessmentDocument = AssessmentDAO.collection.find(Filters.eq(Keys.TITLE.getKeyName(), assessmentTitle)).first();
         if (assessmentDocument != null) 
         {
             List<Document> questionDocuments = assessmentDocument.getList(Keys.QUESTIONS.getKeyName(), Document.class);
@@ -80,7 +80,7 @@ public class AssessmentDAO implements DAO<Assessment>
         return questions;
     }
 
-    public ArrayList<Question> getQuestions(Document document)
+    public static ArrayList<Question> getQuestions(Document document)
     {
         ArrayList<Question> questions = new ArrayList<>();
         
@@ -98,7 +98,7 @@ public class AssessmentDAO implements DAO<Assessment>
     }
     
 
-    public Question getQuestion(String tag)
+    public static Question getQuestion(String tag)
     {
         ArrayList<Question> questions = new ArrayList<>();
         Question searchedQuestion = null;
@@ -115,9 +115,9 @@ public class AssessmentDAO implements DAO<Assessment>
 
     }
 
-    public Assessment getAssessment(String title)
+    public static Assessment getAssessment(String title)
     {
-        Document document = this.collection.find(Filters.eq(Keys.TITLE.getKeyName(), title)).first();
+        Document document = AssessmentDAO.collection.find(Filters.eq(Keys.TITLE.getKeyName(), title)).first();
         System.out.println(title);
         Assessment assessment = null;
         if (document != null && !document.isEmpty())
@@ -139,7 +139,7 @@ public class AssessmentDAO implements DAO<Assessment>
     @Override
     public Boolean delete(Assessment assessment) {
        
-        DeleteResult deleteResult = this.collection.deleteOne(Filters.eq(Keys.ID.getKeyName(), assessment.getId()));
+        DeleteResult deleteResult = AssessmentDAO.collection.deleteOne(Filters.eq(Keys.ID.getKeyName(), assessment.getId()));
 
         long count = deleteResult.getDeletedCount();
 
@@ -149,7 +149,7 @@ public class AssessmentDAO implements DAO<Assessment>
     @Override
     public MongoCollection<Document> getCollection()
     {
-        return this.collection;
+        return AssessmentDAO.collection;
     }
 
 
@@ -165,7 +165,7 @@ public class AssessmentDAO implements DAO<Assessment>
         .collect(Collectors.toList());
 
         
-        this.collection.updateOne
+        AssessmentDAO.collection.updateOne
         (
             Filters.eq(Keys.ID.getKeyName(), assessment.getId()),
             Updates.combine

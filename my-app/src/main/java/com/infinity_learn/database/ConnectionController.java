@@ -15,6 +15,7 @@ public class ConnectionController
 {
     private static MongoClient connection;
     private static final String DATABASE_NAME = "InfinityLearn";
+    private static String uri = "mongodb+srv://admin:anc131315@cluster0.wjbsbfc.mongodb.net/";
 
     public static MongoDatabase getDatabase()
     {
@@ -22,7 +23,8 @@ public class ConnectionController
         {
             if(connection == null)
             {
-                connection = MongoClients.create();
+                /* Para criar um servidor local, basta retirar a URI e chamar o método create() sem parâmetros */
+                connection = MongoClients.create(uri);
             }
 
             CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), 

@@ -40,7 +40,7 @@ public class QuestionDAO implements DAO<Question>
 
     @Override
     public Boolean delete(Question question) 
-    {
+    {   
         DeleteResult deleteResult = this.collection.deleteOne(Filters.eq(Keys.ID.getKeyName(), question.getId()));
 
         long count = deleteResult.getDeletedCount();
